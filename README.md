@@ -17,7 +17,32 @@ The project is organised so team members can work on separate Python modules fir
 
 ## Setup
 
-Create and activate a virtual environment, then install dependencies:
+Clone the repository:
+
+```bash
+git clone https://github.com/HienMinh58/Assignment-3-COMPSCI-361.git
+cd Assignment-3-COMPSCI-361
+```
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+On Windows PowerShell:
+
+```bash
+.\.venv\Scripts\Activate.ps1
+```
+
+On macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
