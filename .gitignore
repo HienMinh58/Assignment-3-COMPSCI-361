@@ -4,11 +4,16 @@ __pycache__/
 *.pyo
 *.pyd
 .pytest_cache/
+.pytest_tmp/
 .coverage
 htmlcov/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Local datasets
+data/*.csv
+!data/.gitkeep
 
 # Virtual environments
 .venv/
