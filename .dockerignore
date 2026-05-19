@@ -1,0 +1,11 @@
+.git
+.venv
+venv
+env
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+data/*.csv
+A3_data/
+A3_data.zip
+*.pdf
