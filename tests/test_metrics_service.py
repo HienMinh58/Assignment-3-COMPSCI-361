@@ -55,17 +55,30 @@ def test_evaluate_svm_returns_expected_structure(tmp_path):
 
 
 @pytest.mark.parametrize(
-    "evaluate_function",
-    [evaluate_knn, evaluate_ann],
+    ("model_name", "evaluate_function"),
+    [
+        ("knn", evaluate_knn),
+        ("ann", evaluate_ann),
+    ],
 )
-def test_placeholder_evaluators_raise_not_implemented(evaluate_function, tmp_path):
+def test_evaluator_placeholder_or_valid_metrics(model_name, evaluate_function, tmp_path):
     train_path = tmp_path / "train.csv"
     test_path = tmp_path / "test.csv"
     _write_dataset(train_path)
     _write_dataset(test_path)
 
-    with pytest.raises(NotImplementedError, match="not been implemented"):
-        evaluate_function(train_path, test_path)
+    try:
+        result = evaluate_function(train_path, test_path)
+    except NotImplementedError as exc:
+        assert "not been implemented" in str(exc)
+        return
+
+    assert result["model"] == model_name
+    assert result["dataset"] == {"train_rows": 4, "test_rows": 4}
+    assert set(result["metrics"]) == {"accuracy", "f1_macro", "f1_weighted"}
+    for value in result["metrics"].values():
+        assert isinstance(value, float)
+        assert 0 <= value <= 1
 
 
 def test_missing_csv_file_raises_clear_error(tmp_path):

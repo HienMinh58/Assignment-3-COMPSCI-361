@@ -46,15 +46,7 @@ TEST_LABELS = ["sport", "politics", "tech"]
 def test_implemented_classifier_fit_predict_evaluate_interface(classifier_cls):
     classifier = classifier_cls()
 
-    classifier.fit(TRAIN_TEXTS, TRAIN_LABELS)
-    predictions = classifier.predict(TEST_TEXTS)
-    metrics = classifier.evaluate(TEST_TEXTS, TEST_LABELS)
-
-    assert len(predictions) == len(TEST_TEXTS)
-    assert set(metrics) == {"accuracy", "f1_macro", "f1_weighted"}
-    for value in metrics.values():
-        assert isinstance(value, float)
-        assert 0 <= value <= 1
+    _assert_classifier_implemented_correctly(classifier)
 
 
 @pytest.mark.parametrize(
@@ -64,8 +56,22 @@ def test_implemented_classifier_fit_predict_evaluate_interface(classifier_cls):
         ANNTextClassifier,
     ],
 )
-def test_placeholder_classifiers_raise_not_implemented(classifier_cls):
+def test_classifier_placeholder_or_valid_implementation(classifier_cls):
     classifier = classifier_cls()
 
-    with pytest.raises(NotImplementedError, match="not been implemented"):
-        classifier.fit(TRAIN_TEXTS, TRAIN_LABELS)
+    try:
+        _assert_classifier_implemented_correctly(classifier)
+    except NotImplementedError as exc:
+        assert "not been implemented" in str(exc)
+
+
+def _assert_classifier_implemented_correctly(classifier):
+    classifier.fit(TRAIN_TEXTS, TRAIN_LABELS)
+    predictions = classifier.predict(TEST_TEXTS)
+    metrics = classifier.evaluate(TEST_TEXTS, TEST_LABELS)
+
+    assert len(predictions) == len(TEST_TEXTS)
+    assert set(metrics) == {"accuracy", "f1_macro", "f1_weighted"}
+    for value in metrics.values():
+        assert isinstance(value, float)
+        assert 0 <= value <= 1
