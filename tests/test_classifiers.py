@@ -36,8 +36,15 @@ TEST_TEXTS = [
 TEST_LABELS = ["sport", "politics", "tech"]
 
 
-def test_naive_bayes_fit_predict_evaluate_interface():
-    classifier = NaiveBayesTextClassifier()
+@pytest.mark.parametrize(
+    "classifier_cls",
+    [
+        NaiveBayesTextClassifier,
+        SVMTextClassifier,
+    ],
+)
+def test_implemented_classifier_fit_predict_evaluate_interface(classifier_cls):
+    classifier = classifier_cls()
 
     classifier.fit(TRAIN_TEXTS, TRAIN_LABELS)
     predictions = classifier.predict(TEST_TEXTS)
@@ -54,7 +61,6 @@ def test_naive_bayes_fit_predict_evaluate_interface():
     "classifier_cls",
     [
         KNNTextClassifier,
-        SVMTextClassifier,
         ANNTextClassifier,
     ],
 )

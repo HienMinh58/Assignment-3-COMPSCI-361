@@ -80,7 +80,7 @@ All classifier classes expose the same simple interface:
 - `predict(test_texts)`
 - `evaluate(test_texts, test_labels)`
 
-`src/classifiers/nb_classifier.py` is the reference implementation. It uses `TfidfVectorizer` and `MultinomialNB`, while kNN, SVM, and ANN are placeholders for teammates to complete later. Classifiers are created through `src/classifier_factory.py`, and local metric evaluation for every endpoint is coordinated by `src/metrics_service.py`.
+`src/classifiers/nb_classifier.py` is the reference implementation. It uses `TfidfVectorizer` and `MultinomialNB`. `src/classifiers/svm_classifier.py` is also implemented. kNN and ANN are placeholders for teammates to complete later. Classifiers are created through `src/classifier_factory.py`, and local metric evaluation for every endpoint is coordinated by `src/metrics_service.py`.
 
 The older top-level model placeholders, such as `src/nb_model.py` and `src/ann_model.py`, have been removed to avoid confusion. New model work should go in `src/classifiers/`.
 
@@ -116,7 +116,7 @@ Endpoints:
 - `GET /metrics/svm`
 - `GET /metrics/ann`
 
-Only Naive Bayes is implemented right now. The kNN, SVM, and ANN endpoints are already wired into the metrics service, but they return HTTP 501 until teammates implement the matching classifier classes. Once a classifier is implemented, the same endpoint can be used to test its local metrics.
+Naive Bayes and SVM are implemented right now. The kNN and ANN endpoints are already wired into the metrics service, but they return HTTP 501 until teammates implement the matching classifier classes. Once a classifier is implemented, the same endpoint can be used to test its local metrics.
 
 Interactive API docs:
 
@@ -163,6 +163,6 @@ Suggested module ownership:
 - Task 1 EDA: `src/eda.py`
 - Naive Bayes reference implementation: `src/classifiers/nb_classifier.py`
 - kNN placeholder: `src/classifiers/knn_classifier.py`
-- SVM placeholder: `src/classifiers/svm_classifier.py`
+- SVM implementation: `src/classifiers/svm_classifier.py`
 - ANN placeholder: `src/classifiers/ann_classifier.py`
 - Model comparison: `src/evaluation.py`
